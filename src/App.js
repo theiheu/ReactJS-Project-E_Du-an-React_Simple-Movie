@@ -1,4 +1,6 @@
 import {Fragment} from "react";
+import MovieCard from "./components/movie/MovieCard";
+import MovieList from "./components/movie/MovieList";
 
 function App() {
     return (
@@ -7,7 +9,7 @@ function App() {
                 <span className="text-primary">Home</span>
                 <span>Movies</span>
             </header>
-            <section className="banner h-[300px] page-container">
+            <section className="banner h-[500px] page-container mb-10">
                 <div className="w-full h-full rounded-lg relative">
                     <div
                         className="overlay absolute inset-0 bg-gradient-to-t from-[rgb(0,0,0.5)] to-[rgb(0,0,0,0.5)] rounded-lg"></div>
@@ -38,6 +40,22 @@ function App() {
                 </div>
 
 
+            </section>
+            <section className="movies-layout page-container mb-20">
+                <h2 className="capitalize text-white mb-5 text-3xl font-bold">
+                    Now playing
+                </h2>
+
+                <MovieList/>
+            </section>
+            <section className="movies-layout page-container">
+                <h2 className="capitalize text-white mb-5 text-3xl font-bold">
+                    Top rated
+                </h2>
+                <div className="movie-list grid grid-cols-4 gap-10">
+                    <MovieCard/>
+
+                </div>
             </section>
         </Fragment>
     );
