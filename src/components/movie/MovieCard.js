@@ -1,7 +1,6 @@
 import React from 'react';
 
 const MovieCard = ({item}) => {
-    // console.log('item', item)
     let {title, vote_average, release_date, poster_path} = item || {}
 
     return (
