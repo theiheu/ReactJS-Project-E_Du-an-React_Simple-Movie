@@ -38,8 +38,6 @@ function App() {
 
                     </div>
                 </div>
-
-
             </section>
             <section className="movies-layout page-container mb-20">
                 <h2 className="capitalize text-white mb-5 text-3xl font-bold">
@@ -52,8 +50,17 @@ function App() {
                 <h2 className="capitalize text-white mb-5 text-3xl font-bold">
                     Top rated
                 </h2>
-                <div className="movie-list grid grid-cols-4 gap-10">
-                    <MovieCard/>
+                <div className="movie-list">
+                    <MovieList type="top_rated"/>
+
+                </div>
+            </section>
+            <section className="movies-layout page-container">
+                <h2 className="capitalize text-white mb-5 text-3xl font-bold">
+                    Trending
+                </h2>
+                <div className="movie-list">
+                    <MovieList type="popular"/>
 
                 </div>
             </section>

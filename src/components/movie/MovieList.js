@@ -6,39 +6,27 @@ import {useState} from "react";
 import useSWR from "swr";
 import {fetcher} from "../../config";
 
-const MovieList = () => {
+const MovieList = ({type = "now_playing"}) => {
     const [movies, setMovies] = useState([]);
     const {
-        data,
-        error
-    } = useSWR('https://api.themoviedb.org/3/movie/now_playing?api_key=1760ac0af799ab5fc2105b216bc09ce0', fetcher)
+        data
+    } = useSWR(`https://api.themoviedb.org/3/movie/${type}?api_key=1760ac0af799ab5fc2105b216bc09ce0`, fetcher)
 
     useEffect(() => {
-        setMovies(data.results)
-    }, [data])
-    console.log('movies', movies)
+        if (data && data.results) {
 
+            setMovies(data.results)
+        }
+    }, [data])
     return (
         <div className="movie-list">
             <Swiper grabCursor={"true"} spaceBetween={30} slidePrevClass={"auto"}>
-                <SwiperSlide>
-                    <MovieCard/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <MovieCard/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <MovieCard/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <MovieCard/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <MovieCard/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <MovieCard/>
-                </SwiperSlide>
+                {movies.length > 0 && movies.map((item) => (
+                    <SwiperSlide key={item.id}>
+                        <MovieCard item={item}/>
+                    </SwiperSlide>
+
+                ))}
             </Swiper>
         </div>
 
