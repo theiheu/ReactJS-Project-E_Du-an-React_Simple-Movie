@@ -2,12 +2,12 @@ import React from 'react';
 import {Swiper, SwiperSlide} from "swiper/react";
 import MovieCard from "./MovieCard";
 import useSWR from "swr";
-import {fetcher} from "../../config";
+import {apiKey, fetcher} from "../../config";
 
 const MovieList = ({type = "now_playing"}) => {
     const {
         data
-    } = useSWR(`https://api.themoviedb.org/3/movie/${type}?api_key=1760ac0af799ab5fc2105b216bc09ce0`, fetcher)
+    } = useSWR(`https://api.themoviedb.org/3/movie/${type}?api_key=${apiKey}`, fetcher)
 
     const movies = data?.results || []
     return (

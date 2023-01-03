@@ -1,13 +1,13 @@
 import React from 'react';
 import useSWR from "swr";
-import MovieCard from "./MovieCard";
-import {fetcher} from "../../config";
+import MovieCard from "../components/movie/MovieCard";
+import {apiKey, fetcher} from "../config";
 
 const MoviePage = () => {
 
     const
         {data}
-            = useSWR(`https://api.themoviedb.org/3/movie/popular?api_key=1760ac0af799ab5fc2105b216bc09ce0`, fetcher)
+            = useSWR(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`, fetcher)
 
     const movies = data?.results || []
 
