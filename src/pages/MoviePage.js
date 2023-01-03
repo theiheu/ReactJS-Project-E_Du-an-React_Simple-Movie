@@ -10,7 +10,7 @@ const MoviePage = () => {
             = useSWR(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`, fetcher)
 
     const movies = data?.results || []
-
+ 
     return (
         <div>
             <div className="py-10 page-container">
