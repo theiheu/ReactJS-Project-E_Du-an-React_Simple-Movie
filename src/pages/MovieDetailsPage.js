@@ -2,6 +2,8 @@ import React from 'react';
 import {useParams} from "react-router-dom";
 import useSWR from "swr";
 import {apiKey, fetcher} from "../config";
+import {Swiper, SwiperSlide} from "swiper/react";
+import MovieCard from "../components/movie/MovieCard";
 
 const MovieDetailsPage = () => {
     const {moviesId} = useParams()
@@ -39,6 +41,7 @@ const MovieDetailsPage = () => {
                 <p className="text-center leading-relaxed max-w-[600px] mx-auto mb-10">{overview}</p>
                 <MoviesCredits/>
                 <MovieVideos/>
+                <MovieSimilar/>
             </div>
         </div>
     );
@@ -69,19 +72,62 @@ const MovieDetailsPage = () => {
     }
 
     function MovieVideos() {
-        const {movieId} = useParams()
+        const {moviesId} = useParams()
         const {data, error} = useSWR(
             `https://api.themoviedb.org/3/movie/${moviesId}/videos?api_key=${apiKey}&language=en-US`, fetcher
         )
-        console.log('data', data)
 
         if (!data) return null
+        const {results} = data
+        if (!results || results.length <= 0) return null
         return (
-            <div></div>
-            // <iframe width="560" height="315" src="https://www.youtube.com/embed/SNIKhIfaZuM" title="YouTube video player"
-//         frameBorder="0"
-//         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-//         allowFullScreen></iframe>
+            <div className="py-10">
+                <div className="flex flex-col gap-10">
+                    {results.slice(0, 3).map(item => (
+                        <div key={item.id} className="w-full aspect-video">
+                            <h3 className="mb-5 text-xl font-medium p-3 bg-primary inline-block">{item.name}</h3>
+                            <iframe
+                                width="2178px" height="1091px"
+                                src={`https://www.youtube.com/embed/${item.key}`}
+                                title="YouTube video player"
+                                allow="accelerometer; autoplay; clipboardWrite; encryptedMedia; gyroscope; pictureInPicture"
+                                className="w-full h-full"
+                                allowFullScreen>
+                            </iframe>
+                        </div>
+                    ))}
+                </div>
+
+
+            </div>
+
+        )
+    }
+
+    function MovieSimilar() {
+        const {moviesId} = useParams()
+        const {data, error} = useSWR(
+            `https://api.themoviedb.org/3/movie/${moviesId}/similar?api_key=${apiKey}&language=en-US`, fetcher
+        )
+        if (!data) return null
+        const {results} = data
+        if (!results || results.length <= 0) return null
+
+        return (
+            <div className="py-10">
+                <h2 className="text-3xl font-medium mb-10">Similar movies</h2>
+                <div className="movie-list">
+                    <Swiper grabCursor={"true"} spaceBetween={30} slidePrevClass={"auto"}>
+                        {results.length > 0 && results.map((item) => (
+                            <SwiperSlide key={item.id}>
+                                <MovieCard item={item}/>
+                            </SwiperSlide>
+
+                        ))}
+                    </Swiper>
+                </div>
+            </div>
+
         )
     }
 };
