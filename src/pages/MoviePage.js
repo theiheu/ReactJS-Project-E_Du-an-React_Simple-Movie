@@ -1,16 +1,32 @@
 import React from 'react';
+import {useState, useEffect} from "react";
 import useSWR from "swr";
 import MovieCard from "../components/movie/MovieCard";
 import {apiKey, fetcher} from "../config";
+import useDebounce from "../hooks/useDebounce";
 
 const MoviePage = () => {
 
-    const
-        {data}
-            = useSWR(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`, fetcher)
+    const [filter, setFilter] = useState("");
+    const [url, setUrl] = useState(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`);
+    const filterDebounce = useDebounce(filter, 500)
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value)
+    }
+
+    const {data} = useSWR(url, fetcher)
+
+    useEffect(() => {
+        if (filterDebounce) {
+            setUrl(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${filterDebounce}`)
+        } else {
+            setUrl(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`)
+        }
+
+    }, [filterDebounce]);
 
     const movies = data?.results || []
- 
+
     return (
         <div>
             <div className="py-10 page-container">
@@ -18,7 +34,7 @@ const MoviePage = () => {
                 <div className="flex mb-10">
                     <div className="flex-1">
                         <input type="text" className="w-full p-4 bg-slate-800 text-white outline-none"
-                               placeholder="Type here to search"/>
+                               placeholder="Type here to search" onChange={handleFilterChange}/>
                     </div>
                     <button className="p-4 bg-primary text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
