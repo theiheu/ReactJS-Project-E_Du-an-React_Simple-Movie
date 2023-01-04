@@ -34,13 +34,13 @@ const MoviePage = () => {
 
     const [itemOffset, setItemOffset] = useState(0);
 
-    if (!data || !data.total_pages) return null
+    if (!data || !data.total_results) return null
 
     const endOffset = itemOffset + itemsPerPage;
-    const pageCount = Math.ceil(data.total_pages / itemsPerPage);
+    const pageCount = Math.ceil(data.total_results / itemsPerPage);
 
     const handlePageClick = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % data.total_pages;
+        const newOffset = (event.selected * itemsPerPage) % data.total_results;
 
         setItemOffset(newOffset);
         setNextPage(event.selected + 1)

@@ -12,7 +12,7 @@ const MovieDetailsPage = () => {
         data,
         error
     } = useSWR(`https://api.themoviedb.org/3/movie/${moviesId}?api_key=${apiKey}&language=en-US`, fetcher)
-    if (!data) return null
+    if (!data) return []
     const {backdrop_path, poster_path, title, genres, overview} = data
 
 
