@@ -20,7 +20,7 @@ const MovieCard = ({item}) => {
                 </div>
 
                 <Button onClick={() => navigate(`/movie/${id}`)} bgColor="secondary">Watch now</Button>
-                
+
 
             </div>
 
